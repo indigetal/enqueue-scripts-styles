@@ -1,11 +1,12 @@
 <?php 
 // Add a menu item for the settings page under Tools
 function enqueue_scripts_styles_menu_tools() {
+    echo 'Hello World'; // Add this line to check if the function is executed
     add_submenu_page(
         'tools.php', // Slug of the Tools menu
         'Enqueue Scripts & Styles Settings', // Page title
         'Enqueue Scripts & Styles', // Menu title
-        'manage_options', // Capability
+        'edit_pages', // Capability
         'enqueue-scripts-styles-settings', // Menu slug
         'enqueue_scripts_styles_page' // Callback function
     );
