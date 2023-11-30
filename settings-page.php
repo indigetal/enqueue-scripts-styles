@@ -1,12 +1,11 @@
 <?php 
 // Add a menu item for the settings page under Tools
 function enqueue_scripts_styles_menu_tools() {
-    echo 'Hello World'; // Add this line to check if the function is executed
     add_submenu_page(
         'tools.php', // Slug of the Tools menu
         'Enqueue Scripts & Styles Settings', // Page title
         'Enqueue Scripts & Styles', // Menu title
-        'edit_pages', // Capability
+        'manage_options', // Capability
         'enqueue-scripts-styles-settings', // Menu slug
         'enqueue_scripts_styles_page' // Callback function
     );
@@ -22,6 +21,7 @@ function enqueue_scripts_styles_page() {
             <?php
             settings_fields('enqueue_scripts_styles_options');
             do_settings_sections('enqueue-scripts-styles-settings');
+            wp_nonce_field('enqueue_scripts_styles_save', 'enqueue_scripts_styles_nonce'); // Add nonce field
             submit_button();
             ?>
         </form>
@@ -86,4 +86,15 @@ function enqueue_scripts_styles_options_validate($input) {
     $valid['custom_js_name'] = sanitize_text_field($input['custom_js_name']);
     return $valid;
 }
+
+// Save settings function
+function enqueue_scripts_styles_save() {
+    if (isset($_POST['enqueue_scripts_styles_nonce']) && wp_verify_nonce($_POST['enqueue_scripts_styles_nonce'], 'enqueue_scripts_styles_save')) {
+        if (current_user_can('manage_options')) {
+            // Sanitize and save settings
+            update_option('enqueue_scripts_styles_options', sanitize_text_field($_POST['enqueue_scripts_styles_options']));
+        }
+    }
+}
+add_action('admin_init', 'enqueue_scripts_styles_save');
 ?>

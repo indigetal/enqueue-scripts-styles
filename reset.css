@@ -14,7 +14,7 @@ html {
   -webkit-text-size-adjust: none;
   text-size-adjust: none;
 
-  /* Define 1rem as 10px for easier calculations */
+  /* Define 1rem as 10px for easier calculations 
   font-size: 62.5%; /* 10px/16px = 62.5% -> 1rem = 10px */
 }
 
@@ -69,11 +69,16 @@ a:not([class]) {
   color: currentColor;
 }
 
-/* Make images easier to work with */
+/* Make images easier to work with, see https://www.youtube.com/watch?v=345V2MU3E_w */
 img,
 picture {
   max-width: 100%;
-  display: block;
+  height: auto;
+  vertical-align: middle;
+  font-style: italic;
+  background-repeat: no-repeat;
+  background-size: cover; /* inert, for fake lazy-loading, to fully implement see https://csswizardry.com/2023/09/the-ultimate-lqip-lcp-technique/ */
+  shape-margin: 0.75rem; /* inert, but useful when floating an img and setting a shape-outside property to wrap text */
 }
 
 /* Inherit fonts for inputs and buttons */
