@@ -29,17 +29,23 @@ function create_custom_folders() {
 add_action('plugins_loaded', 'create_custom_folders');
 
 function enqueue_custom_styles() {
-    // Enqueue CSS
-    wp_enqueue_style('custom-style', WP_CONTENT_URL . '/enqueued-scripts-styles/css/custom.css', array(), '1.0', 'all');
-    //wp_enqueue_style('another-style', WP_CONTENT_URL . '/enqueued-scripts-styles/css/another-style.css', array(), '1.0', 'all');
-    // ... enqueue other styles
+    $options = get_option('enqueue_scripts_styles_options');
+    $customCSSFileName = isset($options['custom_css_name']) ? $options['custom_css_name'] : '';
+
+    if (!empty($customCSSFileName)) {
+        wp_enqueue_style('custom-style', plugins_url('/css/' . $customCSSFileName, __FILE__), array(), '1.0', 'all');
+    }
+    // Enqueue other styles if needed
 }
 add_action('wp_enqueue_scripts', 'enqueue_custom_styles');
 
 function enqueue_custom_scripts() {
-    // Enqueue JavaScript
-    wp_enqueue_script('custom-script', WP_CONTENT_URL . '/enqueued-scripts-styles/js/custom.js', array('jquery'), '1.0', true);
-    //wp_enqueue_script('another-script', WP_CONTENT_URL . '/enqueued-scripts-styles/js/another-script.js', array('jquery'), '1.0', true);
-    // ... enqueue other scripts
+    $options = get_option('enqueue_scripts_styles_options');
+    $customJSFileName = isset($options['custom_js_name']) ? $options['custom_js_name'] : '';
+
+    if (!empty($customJSFileName)) {
+        wp_enqueue_script('custom-script', plugins_url('/js/' . $customJSFileName, __FILE__), array('jquery'), '1.0', true);
+    }
+    // Enqueue other scripts if needed
 }
 add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
