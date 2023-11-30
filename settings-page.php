@@ -1,14 +1,16 @@
-// Add a menu item for the settings page
-function enqueue_scripts_styles_menu() {
-    add_options_page(
-        'Enqueue Scripts & Styles Settings',
-        'Enqueue Scripts & Styles',
-        'manage_options',
-        'enqueue-scripts-styles-settings',
-        'enqueue_scripts_styles_page'
+<?php 
+// Add a menu item for the settings page under Tools
+function enqueue_scripts_styles_menu_tools() {
+    add_submenu_page(
+        'tools.php', // Slug of the Tools menu
+        'Enqueue Scripts & Styles Settings', // Page title
+        'Enqueue Scripts & Styles', // Menu title
+        'manage_options', // Capability
+        'enqueue-scripts-styles-settings', // Menu slug
+        'enqueue_scripts_styles_page' // Callback function
     );
 }
-add_action('admin_menu', 'enqueue_scripts_styles_menu');
+add_action('admin_menu', 'enqueue_scripts_styles_menu_tools');
 
 // Callback function to render the settings page
 function enqueue_scripts_styles_page() {
@@ -83,3 +85,4 @@ function enqueue_scripts_styles_options_validate($input) {
     $valid['custom_js_name'] = sanitize_text_field($input['custom_js_name']);
     return $valid;
 }
+?>
